@@ -1,0 +1,26 @@
+{
+  "name": "atomically-browser",
+  "description": "",
+  "version": "0.1.0",
+  "homepage": "https://github.com/ssb-ngi-pointer/atomically-browser",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/ssb-ngi-pointer/atomically-browser.git"
+  },
+  "dependencies": {
+    "atomically": "^1.7.0",
+    "idb-kv-store": "^4.5.0",
+    "promisify-4loc": "^1.0.0"
+  },
+  "devDependencies": {
+    "browserify": "^17.0.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^5.0.1"
+  },
+  "scripts": {
+    "test-browser": "browserify browser/test.js > browser/bundle.js && firefox ./browser/index.html",
+    "test": "tape test/basic.js | tap-spec"
+  },
+  "author": "Anders Rune Jensen <arj03@protonmail.ch>",
+  "license": "MIT"
+}
