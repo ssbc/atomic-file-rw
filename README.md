@@ -1,4 +1,4 @@
-# Atomically browser
+# Atomically universal
 
 A wrapper around
 [atomically](https://github.com/fabiospampinato/atomically) that

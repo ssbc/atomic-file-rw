@@ -1,11 +1,11 @@
 {
-  "name": "atomically-browser",
+  "name": "atomically-universal",
   "description": "",
   "version": "0.1.0",
-  "homepage": "https://github.com/ssb-ngi-pointer/atomically-browser",
+  "homepage": "https://github.com/ssb-ngi-pointer/atomically-universal",
   "repository": {
     "type": "git",
-    "url": "git@github.com/ssb-ngi-pointer/atomically-browser.git"
+    "url": "git@github.com/ssb-ngi-pointer/atomically-universal.git"
   },
   "dependencies": {
     "atomically": "^1.7.0",
