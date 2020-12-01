@@ -22,3 +22,14 @@ writeFile("test.txt", Buffer.from('GREETINGS')).then(x => {
 })
 ```
 
+or
+
+```js
+const { readFile, writeFile } = require('atomically-universal')
+
+await writeFile("test.txt", Buffer.from('GREETINGS'))
+const buf = await readFile("test.txt")
+
+console.log(buf.toString())
+```
+
