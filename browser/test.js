@@ -11,6 +11,7 @@ writeFile("test.txt", greetings).then(x => {
   readFile("test.txt").then(buf => {
     console.log("got", buf)
     console.log("checking if the result is the same", arrEqual(buf, greetings))
+    console.log("checking if we can do buffer operations", buf.readUInt32LE(0))
 
     const greetingsStr = 'Greetings!'
     console.log("Writing greetings as string", greetingsStr)

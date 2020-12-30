@@ -15,10 +15,21 @@ else
     return { store, key }
   }
 
+  function isUint8Array(value) {
+    return toString.call(value).indexOf('Uint8Array') !== -1
+  }
+
   module.exports = {
     readFile: function(filename) {
       const { store, key } = getStoreAndKey(filename)
-      return promisify(store.get.bind(store))(key)
+      const storeGet = store.get.bind(store)
+      function get(key, cb) {
+        storeGet(key, (err, value) => {
+          if (err) return cb(err)
+          else cb(null, isUint8Array(value) ? Buffer.from(value) : value)
+        })
+      }
+      return promisify(get)(key)
     },
     writeFile: function(filename, value) {
       const { store, key } = getStoreAndKey(filename)
