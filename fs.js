@@ -1,8 +1,12 @@
 const fs = require('fs')
+const path = require('path')
+const mutexify = require('mutexify')
 
 function getEncoding(opts) {
   return opts && opts.encoding ? opts.encoding : null
 }
+
+const locks = new Map()
 
 module.exports = {
   readFile: function(filename, opts, cb) {
@@ -11,18 +15,27 @@ module.exports = {
   },
   writeFile: function(filename, value, opts, cb) {
     if (!cb) cb = opts
-    const tempFile = filename + '~'
-    fs.open(tempFile, 'w', (err, fd) => {
-      if (err) return cb(err)
-      fs.writeFile(fd, value, getEncoding(opts), (err) => {
-        if (err) return cb(err)
-        fs.fsync(fd, (err) => {
-          if (err) return cb(err)
-          fs.close(fd, (err) => {
-            if (err) return cb(err)
-            fs.rename(tempFile, filename, function (err) {
-              if(err) cb(err)
-              else cb(null, value)
+
+    if (!locks.has(filename))
+      locks.set(filename, mutexify())
+
+    const lock = locks.get(filename)
+
+    lock((unlock) => {
+      const tempFile = filename + '~'
+
+      // make sure dir exists
+      fs.mkdirSync(path.dirname(tempFile), { recursive: true })
+
+      fs.open(tempFile, 'w', (err, fd) => {
+        if (err) return unlock(cb, err)
+        fs.writeFile(fd, value, getEncoding(opts), (err) => {
+          if (err) return unlock(cb, err)
+          fs.fsync(fd, (err) => {
+            if (err) return unlock(cb, err)
+            fs.close(fd, (err) => {
+              if (err) return unlock(cb, err)
+              fs.rename(tempFile, filename, () => unlock(cb, null, value))
             })
           })
         })
