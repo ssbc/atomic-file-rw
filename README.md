@@ -1,35 +1,19 @@
-# Atomically universal
+# Atomic-file-rw
 
-A wrapper around
-[atomically](https://github.com/fabiospampinato/atomically) that
-enables it to also run in the browser by writing to indexed db.
-
-This module only exposes the non-sync methods and can be used as a
-replacement for [atomic-file](https://github.com/flumedb/atomic-file)
-as it has better error handling on node.
+This module is meant as a replacement for
+[atomic-file](https://github.com/flumedb/atomic-file) as it has better
+error handling on node and is faster in the browser.
 
 ## Example
 
 Write a buffer to file and read it again:
 
 ```js
-const { readFile, writeFile } = require('atomically-universal')
+const { readFile, writeFile } = require('atomic-file-rw')
 
-writeFile("test.txt", Buffer.from('GREETINGS')).then(x => {
-  readFile("test.txt").then(buf => {
+writeFile("test.txt", Buffer.from('GREETINGS'), ((err, x) => {
+  readFile("test.txt", (err, buf) => {
     console.log(buf.toString())
   })
 })
 ```
-
-or
-
-```js
-const { readFile, writeFile } = require('atomically-universal')
-
-await writeFile("test.txt", Buffer.from('GREETINGS'))
-const buf = await readFile("test.txt")
-
-console.log(buf.toString())
-```
-

@@ -7,8 +7,8 @@ function arrEqual(lhs, rhs) {
 const greetings = Buffer.from('GREETINGS')
 console.log("Writing greetings as buffer", greetings)
 
-writeFile("test.txt", greetings).then(x => {
-  readFile("test.txt").then(buf => {
+writeFile("test.txt", greetings, (err, x) => {
+  readFile("test.txt", (err, buf) => {
     console.log("got", buf)
     console.log("checking if the result is the same", arrEqual(buf, greetings))
     console.log("checking if we can do buffer operations", buf.readUInt32LE(0))
@@ -16,12 +16,11 @@ writeFile("test.txt", greetings).then(x => {
     const greetingsStr = 'Greetings!'
     console.log("Writing greetings as string", greetingsStr)
     
-    writeFile("test2.txt", greetingsStr).then(x => {
-      readFile("test2.txt").then(str => {
+    writeFile("test2.txt", greetingsStr, (err, x) => {
+      readFile("test2.txt", (err, str) => {
         console.log("got", str)
         console.log("checking if the result is the same", str === greetingsStr)
       })
     })
-    
   })
 })
