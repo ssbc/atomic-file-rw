@@ -18,3 +18,17 @@ tape('Basic', (t) => {
     })
   })
 })
+
+tape('Concurrency', (t) => {
+  let completedWrites = 0
+  const concurency = Buffer.from('concurrency!')
+  for (var i = 0; i < 100; ++i) {
+    setTimeout(() => {
+      writeFile("test.txt", concurency, (err, x) => {
+        t.error(err, "no error")
+        if (++completedWrites === 100)
+          t.end()
+      })
+    }, Math.floor(Math.random() * 10))
+  }
+})

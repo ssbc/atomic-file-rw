@@ -14,7 +14,7 @@ function isUint8Array(value) {
 
 module.exports = {
   readFile: function(filename, opts, cb) {
-    if (!cb) opts = cb
+    if (!cb) cb = opts
     const { store, key } = getStoreAndKey(filename)
     const storeGet = store.get.bind(store)
     storeGet(key, (err, value) => {
