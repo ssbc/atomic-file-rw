@@ -35,7 +35,10 @@ module.exports = {
             if (err) return unlock(cb, err)
             fs.close(fd, (err) => {
               if (err) return unlock(cb, err)
-              fs.rename(tempFile, filename, () => unlock(cb, null, value))
+              fs.rename(tempFile, filename, (err) => {
+                if (err) return unlock(cb, err)
+                unlock(cb, null, value)
+              })
             })
           })
         })
