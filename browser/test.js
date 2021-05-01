@@ -20,6 +20,13 @@ writeFile("test.txt", greetings, (err, x) => {
       readFile("test2.txt", (err, str) => {
         console.log("got", str)
         console.log("checking if the result is the same", str === greetingsStr)
+
+        writeFile("test3.txt", greetingsStr, 'utf8', (err, x) => {
+          readFile("test3.txt", (err, str) => {
+            console.log("got", str)
+            console.log("checking if the result is the same", str === greetingsStr)
+          })
+        })
       })
     })
   })

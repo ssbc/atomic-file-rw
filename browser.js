@@ -22,7 +22,9 @@ module.exports = {
       else cb(null, isUint8Array(value) ? Buffer.from(value) : value)
     })
   },
-  writeFile: function(filename, value, cb) {
+  writeFile: function(filename, value, opts, cb) {
+    if (!cb) cb = opts
+
     const { store, key } = getStoreAndKey(filename)
     return store.set.bind(store)(key, value, cb)
   }
