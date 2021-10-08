@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Anders Rune Jensen
+//
+// SPDX-License-Identifier: MIT
+
 const IdbKvStore = require('idb-kv-store')
 
 function getStoreAndKey(filename) {

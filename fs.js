@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Anders Rune Jensen
+//
+// SPDX-License-Identifier: MIT
+
 const fs = require('fs')
 const path = require('path')
 const mutexify = require('mutexify')

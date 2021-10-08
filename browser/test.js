@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 Anders Rune Jensen
+//
+// SPDX-License-Identifier: Unlicense
+
 const { readFile, writeFile } = require('../')
 
 function arrEqual(lhs, rhs) {
