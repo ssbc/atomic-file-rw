@@ -31,5 +31,9 @@ module.exports = {
 
     const { store, key } = getStoreAndKey(filename)
     return store.set.bind(store)(key, value, cb)
+  },
+  deleteFile: function(filename, cb) {
+    const { store, key } = getStoreAndKey(filename)
+    store.remove(key, cb)
   }
 }

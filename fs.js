@@ -10,7 +10,18 @@ function getEncoding(opts) {
   return opts && opts.encoding ? opts.encoding : null
 }
 
-const locks = new Map()
+const locks = {
+  _map: new Map(),
+  getOrCreate: function(filename) {
+    if (this._map.has(filename)) {
+      return this._map.get(filename)
+    } else {
+      const lock = mutexify()
+      this._map.set(filename, lock)
+      return lock
+    }
+  }
+}
 
 module.exports = {
   readFile: function(filename, opts, cb) {
@@ -20,10 +31,7 @@ module.exports = {
   writeFile: function(filename, value, opts, cb) {
     if (!cb) cb = opts
 
-    if (!locks.has(filename))
-      locks.set(filename, mutexify())
-
-    const lock = locks.get(filename)
+    const lock = locks.getOrCreate(filename)
 
     lock((unlock) => {
       const tempFile = filename + '~'
@@ -46,6 +54,16 @@ module.exports = {
             })
           })
         })
+      })
+    })
+  },
+  deleteFile: function(filename, cb) {
+    const lock = locks.getOrCreate(filename)
+
+    lock((unlock) => {
+      fs.unlink(filename, (err) => {
+        if (err) return unlock(cb, err)
+        unlock(cb, null, null)
       })
     })
   }
