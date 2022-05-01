@@ -33,10 +33,14 @@ atomic.writeFile("test.txt", Buffer.from('GREETINGS'), (err, x) => {
 
 ### `atomic.readFile(path[, options], callback)`
 
-Same arguments as Node.js's `fs.readFile`, but in the browser the 
+Same arguments as Node.js's `fs.readFile`, but in the browser the
 `options` is ignored.
 
 ### `atomic.writeFile(file, data[, options], callback)`
 
-Same arguments as Node.js's `fs.writeFile`, but in the browser the 
+Same arguments as Node.js's `fs.writeFile`, but in the browser the
 `options` is ignored.
+
+### `atomic.deleteFile(file, callback)`
+
+Same arguments as Node.js's `fs.unlink`.
